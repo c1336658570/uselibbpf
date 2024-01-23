@@ -6,6 +6,12 @@
 #include <bpf/bpf_core_read.h>
 #include "task_iter.h"
 
+/*
+ * "task_iter" 是使用 BPF 迭代器的一个示例。该示例迭代主机上的所有任务，并获取它们的 PID、进程名称、
+ * 内核堆栈和它们的状态。注意：你可以使用 BlazeSym 对内核堆栈跟踪进行符号化（就像在 profile 示例中一样），
+ * 但为简单起见，该代码已被省略。
+ */
+
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 // 使用bpf迭代器

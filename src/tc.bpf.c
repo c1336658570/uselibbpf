@@ -5,6 +5,11 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 
+/*
+ * "tc"（Traffic Control 的缩写）是处理入口网络流量的一个示例。
+ * 它在 lo 接口上创建一个 qdisc，并将 tc_ingress BPF 程序附加到它上面。它报告进入 lo 接口的 IP 数据包的元数据。
+ */
+
 #define TC_ACT_OK 0
 #define ETH_P_IP  0x0800 /* Internet Protocol packet	*/
 

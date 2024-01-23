@@ -1,4 +1,9 @@
 /* SPDX-License-Identifier: (LGPL-2.1 OR BSD-2-Clause) */
+/*
+ * 此版本 minimal 经过修改，允许在不允许全局变量的旧内核上运行。
+ * bpf_printk使用全局变量，除非在包含 bpf_helpers.h 之前定义BPF_NO_GLOBAL_DATA
+ * 此外，全局变量 my_pid 已替换为一个元素的数组，用于保存进程 pid。
+ */
 #define BPF_NO_GLOBAL_DATA
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>

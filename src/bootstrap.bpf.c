@@ -7,6 +7,13 @@
 #include "bootstrap.h"
 
 /*
+ * bootstrap 是一个简单（但现实）的 BPF 应用程序的示例。它跟踪进程启动（准确地说是系统调用 exec() 系列），
+ * 并退出和发出有关文件名、PID 和父 PID 的数据，以及退出状态和进程寿命的持续时间。
+ * 您可以使用指定 -d <min-duration-ms> 要记录的进程的最短持续时间。
+ * 在这种模式下，进程启动（从技术上讲， exec() ）事件不会输出
+ */
+
+/*
  * 使用 libbpf 开发用户态程序并跟踪 exec() 和 exit() 系统调用
  *
  * 利用 eBPF 程序来跟踪内核中的 exec() 系统调用（通过 SEC("tp/sched/sched_process_exec")
@@ -57,6 +64,7 @@ const volatile unsigned long long min_duration_ns = 0;		// 只读全局变量
  * 
  * 定义了一个名为 handle_exec 的 eBPF 程序，它会在进程执行 exec() 系统调用时触发。
  */
+// sudo cat /sys/kernel/debug/tracing/events/sched/sched_process_exec/format
 SEC("tp/sched/sched_process_exec")
 // 我的系统在/usr/src/linux-source-6.2.0/linux-source-6.2.0/samples/bpf/vmlinux.h下有下面这个参数的结构体定义
 int handle_exec(struct trace_event_raw_sched_process_exec *ctx)

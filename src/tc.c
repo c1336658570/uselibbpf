@@ -4,6 +4,11 @@
 #include <unistd.h>
 #include "tc.skel.h"
 
+/*
+ * sudo ./tc
+ * sudo cat /sys/kernel/debug/tracing/trace_pipe
+ */
+
 #define LO_IFINDEX 1
 
 // 全局变量，用于标识程序是否退出

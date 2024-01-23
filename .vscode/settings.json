@@ -72,6 +72,14 @@
     "errno.h": "c",
     "resource.h": "c",
     "perfbuf-output.skel.h": "c",
-    "ringbuf-reserve-submit.skel.h": "c"
+    "ringbuf-reserve-submit.skel.h": "c",
+    "random": "c",
+    "bootstrap.skel.h": "c",
+    "memleakv1.h": "c",
+    "stdio.h": "c",
+    "blazesym.h": "c",
+    "memleakv2.h": "c",
+    "memleakv2.skel.h": "c",
+    "bpf_helper_defs.h": "c"
   }
 }

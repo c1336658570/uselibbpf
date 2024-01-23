@@ -6,6 +6,11 @@
 #include <linux/limits.h>
 #include "usdt.skel.h"
 
+/*
+ * sudo ./usdt
+ * sudo cat /sys/kernel/debug/tracing/trace_pipe
+ */
+
 static volatile sig_atomic_t exiting;		// 用于信号处理的退出标志
 static jmp_buf env;											// 保存 setjmp 的环境
 

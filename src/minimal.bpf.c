@@ -1,5 +1,16 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /* Copyright (c) 2020 Facebook */
+/*
+ * minimal 就是这样 - 一个最小的实际 BPF 应用示例。它不使用或不需要 BPF CO-RE，因此应该在相当旧的内核上运行。
+ * 它安装一个跟踪点处理程序。它使用 bpf_printk() BPF 助手与世界进行通信。
+ * 要查看其输出，请以 root 身份读取 /sys/kernel/debug/tracing/trace_pipe 文件：
+ * 
+ * minimal 在具有命名空间的环境（如容器或 WSL2）中不起作用，因为命名空间中进程的感知 pid 不是进程的实际 pid。
+ * 若要在命名空间环境中执行， minimal 需要改用 minimal_ns。
+ * 
+ * sudo ./minimal
+ * sudo cat /sys/kernel/debug/tracing/trace_pipe
+ */
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 

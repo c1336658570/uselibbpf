@@ -11,6 +11,11 @@
 #include <bpf/libbpf.h>
 #include "kprobe.skel.h"
 
+/*
+ * sudo ./kprobe
+ * sudo cat /sys/kernel/debug/tracing/trace_pipe
+ */
+
 // 回调函数，用于打印libbpf的错误和调试信息到stderr
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args)
 {

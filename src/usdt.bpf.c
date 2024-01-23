@@ -5,6 +5,11 @@
 #include <bpf/bpf_tracing.h>
 #include <bpf/usdt.bpf.h>
 
+/*
+ * "usdt" 是处理 USDT 探针的一个示例。它将 USDT BPF 程序附加到 libc:setjmp 探针上，
+ * 该探针在用户空间程序中每秒调用一次 setjmp 时触发，并使用 bpf_printk() 宏记录 USDT 参数。
+ */
+
 // 定义要跟踪的进程的PID
 pid_t my_pid = 0;
 

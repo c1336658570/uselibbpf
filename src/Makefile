@@ -31,13 +31,13 @@ CFLAGS := -g -Wall
 ALL_LDFLAGS := $(LDFLAGS) $(EXTRA_LDFLAGS)
 
 # 这是一个可用的应用程序列表。如果您复制/粘贴minimal或bootstrap并创建自己的副本，只需在这里添加应用程序的名称即可构建。每个应用程序都定义了相应的 make 目标
-APPS = syscall minimal minimal_legacy bootstrap uprobe kprobe fentry usdt sockfilter tc ksyscall task_iter
+APPS = syscall minimal minimal_legacy bootstrap uprobe kprobe fentry usdt sockfilter tc ksyscall task_iter memleakv1
 
 CARGO ?= $(shell which cargo)
 ifeq ($(strip $(CARGO)),)
 BZS_APPS :=
 else
-BZS_APPS := profile
+BZS_APPS := profile memleakv2 memleak
 APPS += $(BZS_APPS)
 # Required by libblazesym
 ALL_LDFLAGS += -lrt -ldl -lpthread -lm

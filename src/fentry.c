@@ -11,6 +11,11 @@
 #include <bpf/libbpf.h>
 #include "fentry.skel.h"
 
+/*
+ * sudo ./fentry
+ * sudo cat /sys/kernel/debug/tracing/trace_pipe
+*/
+
 // 定义BPF程序的打印回调函数
 static int libbpf_print_fn(enum libbpf_print_level level, const char *format, va_list args)
 {

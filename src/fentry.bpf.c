@@ -4,6 +4,14 @@
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_tracing.h>
 
+/*
+ * "fentry" 是一个使用 fentry 和 fexit BPF 程序进行跟踪的示例。它将 fentry 和 fexit 
+ * 跟踪附加到 do_unlinkat() 函数上，该函数在删除文件时被调用，并将返回值、PID 和文件名记录到跟踪管道中。
+ * 与 kprobes 相比，其重要区别在于改进了性能和可用性。在此示例中，更好的可用性体现在能够直接解引用指针参数，
+ * 就像在普通的 C 语言中一样，而无需使用各种读取帮助程序。
+ * fexit 和 kretprobe 程序之间的主要区别在于 fexit 具有对输入参数和返回结果的访问权限，而 kretprobe 只能访问结果。
+ */
+
 char LICENSE[] SEC("license") = "Dual BSD/GPL";
 
 // 定义BPF程序，附加到 do_unlinkat，进入do_unlinkat执行

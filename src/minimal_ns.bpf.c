@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
 /* Copyright (c) 2023 Hosein Bakhtiari */
+/*
+ * minimal 在具有命名空间的环境（如容器或 WSL2）中不起作用，因为命名空间中进程的感知 pid 不是进程的实际 pid。
+ * 若要在命名空间环境中执行， minimal 需要改用 minimal_ns。
+ */
+
 #include <linux/bpf.h>
 #include <bpf/bpf_helpers.h>
 #include <linux/sched.h>

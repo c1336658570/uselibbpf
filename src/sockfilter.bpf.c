@@ -9,6 +9,13 @@
 #include <bpf/bpf_endian.h>
 #include "sockfilter.h"
 
+/*
+ * "sockfilter" 是一个监视数据包并处理 __sk_buff 结构的示例。它将套接字 BPF 程序附加到 sock_queue_rcv_skb() 函数上，
+ * 并从 BPF_MAP_TYPE_RINGBUF 中检索信息，然后在标准输出中打印协议、源 IP、源端口、目标 IP 和目标端口。
+ * 目前，大多数在 uapi/linux/in.h 中定义的 IPv4 协议都已包含在内，
+ * 请查看 examples/c/sockfilter.c 中的 ipproto_mapping 以获取支持的协议列表。
+ */
+
 // 定义 IP 分片相关的标志位
 #define IP_MF	  0x2000
 #define IP_OFFSET 0x1FFF
