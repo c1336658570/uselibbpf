@@ -40,15 +40,7 @@ struct {
   __type(value, struct syscall_event);
 } perfcpu_event SEC(".maps");
 
-/*
-struct {
-    __uint(type, BPF_MAP_TYPE_PERF_EVENT_ARRAY);
-    __type(key, u32);
-    __type(value, int);  
-} pb SEC(".maps");
-*/
-
-// 定义BPF程序的入口点，响应系统调用write的进入事件
+// 定义BPF程序的入口点，响应系统调用的进入事件
 SEC("tp/raw_syscalls/sys_enter")
 int handle_enter(struct trace_event_raw_sys_enter *ctx) {
 	u64 start_tm;
@@ -56,19 +48,20 @@ int handle_enter(struct trace_event_raw_sys_enter *ctx) {
   // 获取当前进程ID（Process ID）
 	int pid = bpf_get_current_pid_tgid() >> 32;
 
-	// 打印BPF触发的消息，包含PID信息
+	// pid过滤
 	if (pid_target && pid != pid_target) {
 		return 0;
   }
-
   // 设置启动系统调用时间
   start_tm = bpf_ktime_get_ns();
+
+
   bpf_map_update_elem(&start_time, &pid, &start_tm, BPF_ANY);
 
 	return 0;
 }
 
-// 定义BPF程序的入口点，响应系统调用write的进入事件
+// 定义BPF程序的出口点，响应系统调用的退出事件
 SEC("tp/raw_syscalls/sys_exit")
 int handle_exit(struct trace_event_raw_sys_exit *ctx) {
   u64 *start_ts;
@@ -101,15 +94,19 @@ int handle_exit(struct trace_event_raw_sys_exit *ctx) {
       event->comm[0] = 0; // 如果获取失败，将 comm 字段置为空字符串
   
   start_ts =  bpf_map_lookup_elem(&start_time, &pid);
-  if (!start_ts) {
+  if (!start_ts || !(*start_ts)) { //错误处理
     return 0; 
   }
-  event->runtime = bpf_ktime_get_ns() - *start_ts;
+
+  u64 end_ts = bpf_ktime_get_ns();
+  if (!end_ts ) {
+    return 0; 
+  }
+  //运行时间计算  
+  event->runtime = end_ts - *start_ts;
 
   bpf_map_delete_elem(&start_time, &pid);
 
   bpf_perf_event_output(ctx, &pb, BPF_F_CURRENT_CPU, event, sizeof(*event));
-
 	return 0;
 }
-
